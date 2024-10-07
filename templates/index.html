@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            text-align: center;
+        }
+        .field {
+            width: 800px;
+        }
+        .card {
+            width: 150px;
+            position: absolute;
+            left: 41%;
+            top: 18%;
+        }
+    </style>
+    <!-- Include jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.socket.io/4.3.2/socket.io.min.js"></script>
+</head>
+<body>
+    <img src="{{ url_for('static', filename='field.jpg') }}" class="field" alt="">
+    <img src="{{ url_for('static', filename='0.png') }}" class="card" id="card" alt="">
+
+    <script>
+        // Initialize Socket.IO
+        const socket = io();
+
+        // Listen for 'update' events from the server
+        socket.on('update', function(data) {
+            const result = data.object_names[0];
+            console.log(result);
+            document.getElementById('card').src = `/static/${result}.png`;
+        });
+    </script>
+</body>
+</html>

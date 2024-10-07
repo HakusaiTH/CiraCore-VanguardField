@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-Time Object Names Display</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <h1>Object Names Received from Flask (Real-Time)</h1>
+    <ul id="objectList"></ul>
+
+    <script>
+        // ฟังก์ชันเพื่อดึงข้อมูลจาก Flask แบบ Real-Time
+        function fetchData() {
+            $.ajax({
+                url: '/endpoint',  // ใช้ GET request
+                method: 'GET',
+                success: function(data) {
+                    const objectList = $('#objectList');
+                    objectList.empty(); // ล้างข้อมูลเก่าก่อนแสดงผลใหม่
+
+                    data.object_names.forEach(function(name) {
+                        objectList.append('<li>' + name + '</li>');
+                    });
+                }
+            });
+        }
+
+        // เรียกใช้ฟังก์ชัน fetchData ทุกๆ 2 วินาที
+        setInterval(fetchData, 2000);
+    </script>
+</body>
+</html>
